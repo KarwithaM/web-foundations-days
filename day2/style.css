@@ -9,6 +9,7 @@ body {
   background-color: #e8d0a4;
   color: #2e2724;
   line-height: 1.5;
+  min-height: 100vh; /* Full
 }
 
 /* 2. Header & Navigation */
@@ -40,7 +41,7 @@ nav a {
 }
 
 nav a:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Light white highlight on hover */
+  background-color: rgba(255, 255, 255, 0.2); /* (Medium Brown highlight on hover */
 }
 
 /* 3. Main Content & Cards */
@@ -139,10 +140,22 @@ button:hover {
  
 .note {
   background-color: #fdf6e3; /* Light yellow */
-  border-left: 4px solid #d18a2f; /* Teal accent stripe */
+  border-left: 4px solid #0ba184; /* Amber accent stripe */
   padding: 12px 16px;
   margin-bottom: 10px;
   border-radius: 6px;
+}
+
+footer {
+  text-align: center;
+  color: #2e2724; /* dark charcoal text color */
+  padding: 24px 16px;
+  margin-top: 32px; /* Add some space above the footer */
+  background-color: rgba(142, 37, 27, 0.1); /* Subtle burgundy tint */
+  border-radius: 8px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* 7. Mobile Media Query */
