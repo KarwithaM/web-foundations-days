@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - QuickNotes</title>
+</head>
+<body>
+  <!-- HEADER (same as index.html) -->
+  <header>
+    <h1>QuickNotes</h1>
+    <p>Capture ideas before they disappear.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- About Section -->
+    <section>
+      <h2>About QuickNotes</h2>
+      <p>QuickNotes is a simple web application designed to help you capture your ideas instantly before they slip away. Whether you're brainstorming, studying, or planning, QuickNotes provides a clean and fast way to jot down your thoughts.</p>
+    </section>
+
+    <!-- How to Use Section (Ordered List) -->
+    <section>
+      <h2>How to use QuickNotes</h2>
+      <ol>
+        <li>Type your note in the text box under "Add a note"</li>
+        <li>Click the "Add Note" button to save it</li>
+        <li>View all your notes in the "Your notes" section below</li>
+      </ol>
+    </section>
+
+    <!-- Features Section (Unordered List) -->
+    <section>
+      <h2>Features</h2>
+      <ul>
+        <li>Fast and simple note-taking</li>
+        <li>Clean, distraction-free interface</li>
+        <li>Works offline in your browser</li>
+        <li>No account required</li>
+      </ul>
+    </section>
+
+    <!-- Keyboard Shortcuts Section (Table) -->
+    <section>
+      <h2>Keyboard Shortcuts</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Shortcut</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ctrl + Enter</td>
+            <td>Add a new note</td>
+          </tr>
+          <tr>
+            <td>Escape</td>
+            <td>Clear the input field</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Feedback Form Section -->
+    <section>
+      <h2>Send Feedback</h2>
+      <form id="feedback-form">
+        <div>
+          <label for="feedback-name">Name</label>
+          <input type="text" id="feedback-name" name="name" required />
+        </div>
+        <div>
+          <label for="feedback-email">Email</label>
+          <input type="email" id="feedback-email" name="email" required />
+        </div>
+        <div>
+          <label for="feedback-message">Message</label>
+          <textarea id="feedback-message" name="message" required></textarea>
+        </div>
+        <button type="submit">Send Feedback</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- FOOTER (same as index.html) -->
+  <footer>
+    <p>&copy; 2026 QuickNotes. Built during Web Foundations.</p>
+  </footer>
+</body>
+</html>
