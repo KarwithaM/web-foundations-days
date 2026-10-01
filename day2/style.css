@@ -9,7 +9,7 @@ body {
   background-color: #e8d0a4;
   color: #2e2724;
   line-height: 1.5;
-  min-height: 100vh; /* Full
+    min-height: 100vh; /* Full viewport height */
 }
 
 /* 2. Header & Navigation */
