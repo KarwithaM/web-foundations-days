@@ -17,7 +17,7 @@
 I would add the following index:
 
 ```sql
-CREATE INDEX idx_enrolments_student_id ON enrolments(student_id);
+CREATE INDEX idx_enrolments_student_id ON enrolments(course_id);
 ```
 
 ## Reason:
