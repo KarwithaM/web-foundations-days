@@ -11,7 +11,8 @@
 
 **Calculations:**
 
-- **Uploads per second (Write Traffic):** 1,000,000 photos / 100,000 seconds = **10 uploads/sec**.
+- **Average uploads per second (Write Traffic):** 1,000,000 photos / 100,000 seconds = **10 uploads/sec**.
+- **Peak uploads per second (Write Traffic):** 10 uploads/sec \* 5 (peak multiplier) = **50 writes/sec**.
 - **Feed views per second (Read Traffic - Average):** (1,000,000 users \* 50 views) / 100,000 seconds = **500 views/sec**.
 - **Feed views per second (Read Traffic - Peak):** 500 views/sec \* 5 (peak multiplier) = **2,500 views/sec**.
 - **Photo Storage per Year:** 1,000,000 photos/day _ 365 days _ 2 MB = **730 TB/year**.
@@ -21,7 +22,7 @@
 ## 2. Read-Heavy vs. Write-Heavy
 
 SnapShare is heavily **read-heavy** (a 50:1 ratio of reads to writes).
-**Design Impact:** Because reads vastly outnumber writes, the architecture must be optimized to serve data as fast as possible. We will rely heavily on CDNs, caching (Redis), and database read replicas to handle the 2,500 peak reads/sec, while the write path (10 writes/sec) can remain relatively simple.
+**Design Impact:** Because reads vastly outnumber writes, the architecture must be optimized to serve data as fast as possible. We will rely heavily on CDNs, caching (Redis), and database read replicas to handle the 2,500 peak reads/sec, while the write path (50 peak writes/sec) can remain relatively simple.
 
 ## 3. Storing Photos
 
@@ -67,7 +68,7 @@ SnapShare is heavily **read-heavy** (a 50:1 ratio of reads to writes).
 - **Primary Database:** Stores structured metadata (user profiles, photo URLs, timestamps) and handles all write operations.
 - **Read Replica:** Offloads the massive volume of read queries (like fetching feed metadata) away from the primary database.
 - **Object Storage:** Cheaply and infinitely stores the actual binary photo and thumbnail files.
-- **Message Queue & Worker:** Decouples the slow image processing (thumbnail generation) from the main upload API so the user gets an instant response.
+- **Message Queue & Worker:** Decouples the slow image processing from the main upload API. At a peak volume of 50 writes per second, the thumbnail queue receives 50 jobs per second. This peak volume directly influences the worker pool size, requiring us to scale the number of concurrent worker instances to ensure they can process at least 50 jobs per second and prevent a growing backlog.
 
 ## 6. Upload Flow (Step-by-Step)
 
@@ -75,7 +76,7 @@ SnapShare is heavily **read-heavy** (a 50:1 ratio of reads to writes).
 2. The App Server validates the user and generates a unique file name for the photo.
 3. The App Server streams the 2MB photo directly to Object Storage (S3).
 4. The App Server saves the photo's metadata (S3 URL, user ID, timestamp) to the Primary DB.
-5. The App Server sends a "Generate Thumbnail" job to the Message Queue and immediately returns 201 Created to the user's phone.
+5. The App Server sends a "Generate Thumbnail" job to the Message Queue and immediately returns `201 Created` to the user's phone.
 6. A background Worker picks up the job, downloads the photo from Object Storage, creates the 50KB thumbnail, and uploads the thumbnail back to Object Storage.
 7. The Worker updates the photo's metadata in the Primary DB with the new thumbnail URL.
 
