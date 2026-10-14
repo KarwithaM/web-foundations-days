@@ -17,12 +17,12 @@
 I would add the following index:
 
 ```sql
-CREATE INDEX idx_enrolments_student_id ON enrolments(course_id);
+CREATE INDEX idx_enrolments_course_id ON enrolments(course_id);
 ```
 
 ## Reason:
 
-A very common query in a school system is "Show me all courses and grades for this specific student." Indexing student_id allows the database to instantly find all of a student's enrolments without scanning the entire enrolments table.
+Indexing `course_id` accelerates queries that filter or group by course. For example, when finding all students enrolled in a specific course or calculating the number of students per course (using `GROUP BY`), the database can use this index to instantly locate the relevant rows without scanning the entire `enrolments` table. Since the composite primary key `(student_id, course_id)` already optimizes searches by `student_id`, indexing `course_id` provides the most performance value for course-centric queries.
 
 ## SQL vs. NoSQL Choice
 

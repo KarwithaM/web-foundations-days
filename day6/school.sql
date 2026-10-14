@@ -83,3 +83,6 @@ WHERE e.student_id IS NULL;
 UPDATE enrolments 
 SET grade = 'B' 
 WHERE student_id = 2 AND course_id = 1;
+
+-- Add an index on course_id to speed up course-based queries
+CREATE INDEX idx_enrolments_course_id ON enrolments(course_id);
