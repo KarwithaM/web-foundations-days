@@ -31,28 +31,31 @@ SnapShare is heavily **read-heavy** (a 50:1 ratio of reads to writes).
 ## 4. Architecture Diagram
 
 ```text
-                  [ User / Mobile Client ]
-                           |
-                           v
-                  [ CDN (CloudFront) ] <--- Serves images/thumbnails
-                           |
-                           v
-                  [ Load Balancer ]
-                           |
-           +---------------+---------------+
-           v               v               v
-      [ App Server 1] [ App Server 2] [ App Server 3]
-           |               |               |
-           +-------+-------+-------+-------+
-                   |               |
-                   v               v
-           [ Cache (Redis) ]   [ Message Queue ]
-                   |               |
-                   v               v
-           [ Read Replica DB]  [ Worker (Thumbnails) ]
-                   ^               |
-                   |               v
-           [ Primary DB ] ---> [ Object Storage (S3) ]
+                          [ User / Mobile Client ]
+                          /                      \
+                 (Static) /                        \ (API Traffic)
+                        v                          v
+             [ CDN (Images/CSS/JS) ]      [ Load Balancer ]
+                                                    |
+                                   +----------------+----------------+
+                                   v                v                v
+                            [ App Server 1]  [ App Server 2]  [ App Server 3]
+                                   |                |                |
+                                   +--------+-------+--------+-------+
+                                            |                |
+                                            v                v
+                                    [ Cache (Redis) ]  [ Message Queue ]
+                                            |                |
+                                            v                v
+                                    [ Read Replica ]   [ Worker (Thumbnails) ]
+                                            ^                |
+                                            |                v
+                                    [ Primary DB ]     [ Object Storage (S3) ]
+                                          ^                  ^
+                                          |                  |
+                                          +------------------+
+                              (App Servers connect directly to Object Storage
+                               to upload photos and generate presigned URLs)
 ```
 
 ## 5. Component Explanations
